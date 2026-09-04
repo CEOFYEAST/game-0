@@ -1,0 +1,31 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
+
+namespace game_0;
+
+public abstract class Player
+{
+    public abstract void Update(GameTime gameTime);
+
+    public abstract Choice? MakeChoice();
+
+    // public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+    // {
+    //     SpriteEffects spriteEffects = (flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+    //     spriteBatch.Draw(
+    //         texture,
+    //         position,
+    //         null,
+    //         Color.White,
+    //         .33f,
+    //         new Vector2(64, 64),
+    //         .5f,
+    //         spriteEffects,
+    //         0);
+    // }
+}
