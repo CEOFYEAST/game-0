@@ -8,7 +8,10 @@ namespace game_0;
 public class RockPaperScissors : Game
 {
     private GraphicsDeviceManager _graphics;
+
     private SpriteBatch _spriteBatch;
+
+    private SpriteFont _bangers;
 
     private State _gameState;
 
@@ -20,6 +23,8 @@ public class RockPaperScissors : Game
 
     private Choice _computerPlayerChoice;
 
+    private Result _result;
+
     public RockPaperScissors()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -29,7 +34,6 @@ public class RockPaperScissors : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
         _gameState = State.Initial;
         _humanPlayer = new();
         _computerPlayer = new();
@@ -39,8 +43,7 @@ public class RockPaperScissors : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-
-        // TODO: use this.Content to load your game content here
+        _bangers = Content.Load<SpriteFont>("bangers");
     }
 
     protected override void Update(GameTime gameTime)
@@ -48,12 +51,14 @@ public class RockPaperScissors : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
+        _humanPlayer.Update(gameTime);
+        _computerPlayer.Update(gameTime);
+
         // TODO: Add your update logic here
         switch (_gameState)
         {
             case State.Initial:
                 _gameState = State.Choosing;
-                Console.WriteLine("Choose 1 for Rock, 2 for Paper, 3 for Scissors");
                 break;
             case State.Choosing:
                 Choice? playerChoice = _humanPlayer.MakeChoice();
@@ -61,14 +66,11 @@ public class RockPaperScissors : Game
                 {
                     _humanPlayerChoice = (Choice)playerChoice;
                     _computerPlayerChoice = (Choice)_computerPlayer.MakeChoice();
-                    Console.WriteLine($"Human Choice: {_humanPlayerChoice}");
-                    Console.WriteLine($"Computer Choice: {_computerPlayerChoice}");
                     _gameState = State.Scoring;
                 }
                 break;
             case State.Scoring:
-                Result result = Score(_humanPlayerChoice, _computerPlayerChoice);
-                Console.WriteLine($"Result: {result}");
+                _result = Score(_humanPlayerChoice, _computerPlayerChoice);
                 _gameState = State.Ending;
                 break;
             default:
@@ -82,7 +84,22 @@ public class RockPaperScissors : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        // TODO: Add your drawing code here
+        _spriteBatch.Begin();
+
+        // TODO: Add your update logic here
+        switch (_gameState)
+        {
+            case State.Choosing:
+                _spriteBatch.DrawString(_bangers, "Choose 1 for Rock, 2 for Paper, 3 for Scissors", new Vector2(2, 2), Color.Gold);
+                break;
+            case State.Ending:
+                _spriteBatch.DrawString(_bangers, $"Result: ${_result}", new Vector2(2, 2), Color.Gold);
+                break;
+            default:
+                break;
+        }
+
+        _spriteBatch.End();
 
         base.Draw(gameTime);
     }

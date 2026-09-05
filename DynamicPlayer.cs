@@ -10,7 +10,7 @@ namespace game_0;
 
 public class DynamicPlayer : Player
 {
-    private KeyboardState keyboardState;
+    private KeyboardState _keyboardState;
 
     // private Texture2D texture;
 
@@ -23,17 +23,17 @@ public class DynamicPlayer : Player
 
     public override void Update(GameTime gameTime)
     {
-        keyboardState = Keyboard.GetState();
+        _keyboardState = Keyboard.GetState();
 
         // Apply keyboard movement
-        // if (keyboardState.IsKeyDown(Keys.Up) || keyboardState.IsKeyDown(Keys.W)) position += new Vector2(0, -1);
-        // if (keyboardState.IsKeyDown(Keys.Down) || keyboardState.IsKeyDown(Keys.S)) position += new Vector2(0, 1);
-        // if (keyboardState.IsKeyDown(Keys.Left) || keyboardState.IsKeyDown(Keys.A))
+        // if (_keyboardState.IsKeyDown(Keys.Up) || _keyboardState.IsKeyDown(Keys.W)) position += new Vector2(0, -1);
+        // if (_keyboardState.IsKeyDown(Keys.Down) || _keyboardState.IsKeyDown(Keys.S)) position += new Vector2(0, 1);
+        // if (_keyboardState.IsKeyDown(Keys.Left) || _keyboardState.IsKeyDown(Keys.A))
         // {
         //     position += new Vector2(-1, 0);
         //     flipped = true;
         // }
-        // if (keyboardState.IsKeyDown(Keys.Right) || keyboardState.IsKeyDown(Keys.D))
+        // if (_keyboardState.IsKeyDown(Keys.Right) || _keyboardState.IsKeyDown(Keys.D))
         // {
         //     position += new Vector2(1, 0);
         //     flipped = false;
@@ -42,9 +42,9 @@ public class DynamicPlayer : Player
 
     public override Choice? MakeChoice()
     {
-        if (keyboardState.IsKeyDown(Keys.D1)) return (Choice)0;
-        else if (keyboardState.IsKeyDown(Keys.D2)) return (Choice)1;
-        else if (keyboardState.IsKeyDown(Keys.D3)) return (Choice)2;
+        if (_keyboardState.IsKeyDown(Keys.D1)) return (Choice)0;
+        else if (_keyboardState.IsKeyDown(Keys.D2)) return (Choice)1;
+        else if (_keyboardState.IsKeyDown(Keys.D3)) return (Choice)2;
         return null;
     }
 
