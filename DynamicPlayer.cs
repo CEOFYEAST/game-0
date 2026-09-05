@@ -12,14 +12,14 @@ public class DynamicPlayer : Player
 {
     private KeyboardState _keyboardState;
 
-    // private Texture2D texture;
+    private Texture2D _texture;
 
-    // private Vector2 position = new Vector2(200, 200);
+    private Vector2 _position = new Vector2(200, 200);
 
-    // public void LoadContent(ContentManager content)
-    // {
-    //     texture = content.Load<Texture2D>("slime");
-    // }
+    public void LoadContent(ContentManager content)
+    {
+        _texture = content.Load<Texture2D>("player");
+    }
 
     public override void Update(GameTime gameTime)
     {
@@ -48,18 +48,12 @@ public class DynamicPlayer : Player
         return null;
     }
 
-    // public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-    // {
-    //     SpriteEffects spriteEffects = (flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-    //     spriteBatch.Draw(
-    //         texture,
-    //         position,
-    //         null,
-    //         Color.White,
-    //         .33f,
-    //         new Vector2(64, 64),
-    //         .5f,
-    //         spriteEffects,
-    //         0);
-    // }
+    public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+    {
+        spriteBatch.Draw(
+            _texture,
+            _position,
+            Color.White
+        );
+    }
 }

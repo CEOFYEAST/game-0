@@ -14,6 +14,8 @@ public abstract class Player
 
     public abstract Choice? MakeChoice();
 
+    public abstract void Draw(GameTime gameTime, SpriteBatch spriteBatch);
+
     // public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     // {
     //     SpriteEffects spriteEffects = (flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;

@@ -47,6 +47,7 @@ public class RockPaperScissors : Game
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
+        _humanPlayer.LoadContent(Content);
         _bangers = Content.Load<SpriteFont>("bangers");
     }
 
@@ -95,6 +96,8 @@ public class RockPaperScissors : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         _spriteBatch.Begin();
+
+        _humanPlayer.Draw(gameTime, _spriteBatch);
 
         // TODO: Add your update logic here
         switch (_gameState)
