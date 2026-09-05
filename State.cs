@@ -4,6 +4,7 @@ public enum State
 {
     Initial = 0,
     Choosing = 1,
-    Scoring = 2,
-    Ending = 3
+    Results = 2,
+    Scoring = 3,
+    Ending = 4
 }

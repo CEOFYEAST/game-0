@@ -11,6 +11,10 @@ public class RockPaperScissors : Game
 
     private SpriteBatch _spriteBatch;
 
+    private KeyboardState _keyboardState;
+
+    private KeyboardState _priorKeyboardState;
+
     private SpriteFont _bangers;
 
     private State _gameState;
@@ -48,8 +52,8 @@ public class RockPaperScissors : Game
 
     protected override void Update(GameTime gameTime)
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
+        _keyboardState = Keyboard.GetState();
+        if (_keyboardState.IsKeyDown(Keys.Escape)) Exit();
 
         _humanPlayer.Update(gameTime);
         _computerPlayer.Update(gameTime);
@@ -58,7 +62,8 @@ public class RockPaperScissors : Game
         switch (_gameState)
         {
             case State.Initial:
-                _gameState = State.Choosing;
+
+                if (_keyboardState.IsKeyDown(Keys.C) && _priorKeyboardState.IsKeyUp(Keys.C)) _gameState = State.Choosing;
                 break;
             case State.Choosing:
                 Choice? playerChoice = _humanPlayer.MakeChoice();
@@ -66,17 +71,22 @@ public class RockPaperScissors : Game
                 {
                     _humanPlayerChoice = (Choice)playerChoice;
                     _computerPlayerChoice = (Choice)_computerPlayer.MakeChoice();
-                    _gameState = State.Scoring;
+                    _gameState = State.Results;
                 }
+                break;
+            case State.Results:
+                if (_keyboardState.IsKeyDown(Keys.C) && _priorKeyboardState.IsKeyUp(Keys.C)) _gameState = State.Scoring;
                 break;
             case State.Scoring:
                 _result = Score(_humanPlayerChoice, _computerPlayerChoice);
-                _gameState = State.Ending;
+                if (_keyboardState.IsKeyDown(Keys.C) && _priorKeyboardState.IsKeyUp(Keys.C)) _gameState = State.Ending;
                 break;
-            default:
+            case State.Ending:
+                if (_keyboardState.IsKeyDown(Keys.Enter)) _gameState = State.Choosing;
                 break;
         }
 
+        _priorKeyboardState = _keyboardState;
         base.Update(gameTime);
     }
 
@@ -89,11 +99,20 @@ public class RockPaperScissors : Game
         // TODO: Add your update logic here
         switch (_gameState)
         {
+            case State.Initial:
+                _spriteBatch.DrawString(_bangers, "EXTREME Rock Paper Scissors - Press C to continue", new Vector2(2, 2), Color.Gold);
+                break;
             case State.Choosing:
                 _spriteBatch.DrawString(_bangers, "Choose 1 for Rock, 2 for Paper, 3 for Scissors", new Vector2(2, 2), Color.Gold);
                 break;
-            case State.Ending:
+            case State.Results:
+                _spriteBatch.DrawString(_bangers, $"You chose {_humanPlayerChoice}, computer chose {_computerPlayerChoice}.", new Vector2(2, 2), Color.Gold);
+                break;
+            case State.Scoring:
                 _spriteBatch.DrawString(_bangers, $"Result: ${_result}", new Vector2(2, 2), Color.Gold);
+                break;
+            case State.Ending:
+                _spriteBatch.DrawString(_bangers, $"Play again? - Press ENTER", new Vector2(2, 2), Color.Gold);
                 break;
             default:
                 break;
