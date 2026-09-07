@@ -12,13 +12,20 @@ public class DynamicPlayer : Player
 {
     private KeyboardState _keyboardState;
 
-    private Texture2D _texture;
+    private Texture2D _frontTexture;
 
-    private Vector2 _position = new Vector2(200, 200);
+    private Texture2D _backTexture;
+
+    private Texture2D _deadTexture;
+
+    /// When true the player is drawn from behind, facing the computer player.
+    public bool FacingAway { get; set; }
 
     public void LoadContent(ContentManager content)
     {
-        _texture = content.Load<Texture2D>("player");
+        _frontTexture = content.Load<Texture2D>("HumanPlayer");
+        _backTexture = content.Load<Texture2D>("HumanPlayerBack");
+        _deadTexture = content.Load<Texture2D>("HumanPlayerDead");
     }
 
     public override void Update(GameTime gameTime)
@@ -50,10 +57,18 @@ public class DynamicPlayer : Player
 
     public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
+        // There is no back-facing dead sprite, so dying turns the player around.
+        Texture2D texture = IsDead ? _deadTexture : (FacingAway ? _backTexture : _frontTexture);
         spriteBatch.Draw(
-            _texture,
-            _position,
-            Color.White
+            texture,
+            Position,
+            null,
+            Color.White,
+            0f,
+            new Vector2(texture.Width, texture.Height) / 2,
+            1f,
+            SpriteEffects.None,
+            0f
         );
     }
 }

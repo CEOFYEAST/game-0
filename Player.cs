@@ -10,6 +10,12 @@ namespace game_0;
 
 public abstract class Player
 {
+    /// The position of the sprite's center on screen.
+    public Vector2 Position { get; set; }
+
+    /// When true the player is drawn as their dead variant.
+    public bool IsDead { get; set; }
+
     public abstract void Update(GameTime gameTime);
 
     public abstract Choice? MakeChoice();

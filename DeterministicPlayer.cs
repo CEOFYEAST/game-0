@@ -12,11 +12,12 @@ public class DeterministicPlayer : Player
 {
     private Texture2D _texture;
 
-    private Vector2 _position = new Vector2(200, 200);
+    private Texture2D _deadTexture;
 
     public void LoadContent(ContentManager content)
     {
-        _texture = content.Load<Texture2D>("computer");
+        _texture = content.Load<Texture2D>("ComputerPlayer");
+        _deadTexture = content.Load<Texture2D>("ComputerPlayerDead");
     }
 
     public override void Update(GameTime gameTime)
@@ -46,10 +47,17 @@ public class DeterministicPlayer : Player
 
     public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
     {
+        Texture2D texture = IsDead ? _deadTexture : _texture;
         spriteBatch.Draw(
-            _texture,
-            _position,
-            Color.White
+            texture,
+            Position,
+            null,
+            Color.White,
+            0f,
+            new Vector2(texture.Width, texture.Height) / 2,
+            1f,
+            SpriteEffects.None,
+            0f
         );
     }
 }
